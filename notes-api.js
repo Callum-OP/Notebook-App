@@ -28,6 +28,12 @@ async function findAllRows() {
     console.log(notes);
 }
 
+async function deleteRow(id) {
+
+    let n = await Note.destroy({ where: { id } });
+    console.log(`number of deleted rows: ${n}`);
+}
+
 //showing all notes
 app.get('/notes', (req, res) => {
     findAllRows();
@@ -45,6 +51,13 @@ app.post('/note', (req, res) => {
     });
 
     res.send('Note added to the database');
+});
+
+//deleting a notes
+app.delete('/note/:id', (req, res) => {
+    // reading id from the URL
+    const id = req.params.id;
+    res.send(deleteRow(id))
 });
 
 app.listen(port, () => console.log(`To Do List app listening on port ${port}!`));
