@@ -21,6 +21,7 @@ let Note = sequelize.define('notes', {
 });
 
 let notes;
+findAllRows()
 
 async function findAllRows() {
 
@@ -57,7 +58,8 @@ app.post('/note', (req, res) => {
 app.delete('/note/:id', (req, res) => {
     // reading id from the URL
     const id = req.params.id;
-    res.send(deleteRow(id))
+    deleteRow(id)
+    res.send("Note deleted from the database")
 });
 
 app.listen(port, () => console.log(`To Do List app listening on port ${port}!`));
