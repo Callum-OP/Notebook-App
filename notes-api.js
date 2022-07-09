@@ -20,22 +20,6 @@ let Note = sequelize.define('notes', {
     description: Sequelize.STRING
 });
 
-let notes;
-let note;
-findAllRows()
-
-async function findAllRows() {
-
-    notes = await Note.findAll({ raw: true });
-    console.log(notes);
-}
-
-async function findRow(id) {
-
-    note = await Note.findAll({ where : { id: id}, attributes: ["description"]});
-    console.log(note);
-}
-
 async function deleteRow(id) {
 
     let n = await Note.destroy({ where: { id } });
@@ -44,8 +28,10 @@ async function deleteRow(id) {
 
 //showing all notes
 app.get('/notes', (req, res) => {
-    findAllRows();
-    res.send(notes)
+    Note.findAll({ raw: true })
+    .then(data => {
+        res.send(data);
+    })
 });
 
 //add a note
@@ -64,8 +50,10 @@ app.post('/note', (req, res) => {
 //showing a specific note
 app.get('/note/:id', (req, res) => {
     const id = req.params.id;
-    findRow(id)
-    res.send(note)
+    Note.findAll({ where: { id:id } })
+    .then(data => {
+        res.send(data);
+    })
 });
 
 //deleting a notes
