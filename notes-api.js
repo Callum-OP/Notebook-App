@@ -62,4 +62,21 @@ app.delete('/note/:id', (req, res) => {
     res.send("Note deleted from the database")
 });
 
+
+app.post('/note/:id', (req, res) => {
+    // Reading id from the URL
+    const id = req.params.id;
+    const note = req.body.description
+    
+    Note.update(
+        // Set Attribute values 
+        { description : note },
+      
+        // Where clause / criteria 
+        { where: { id : id } }    
+    )
+
+    res.send('Note is edited');
+});
+
 app.listen(port, () => console.log(`To Do List app listening on port ${port}!`));
